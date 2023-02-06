@@ -6,8 +6,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   });
 
   if (!state) {
-    state = {hello: 'not world'} 
-    // initialize state if empty and set default data
+    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false'}; 
     await wallet.request({
       method: 'snap_manageState',
       params: ['update', state],
@@ -15,15 +14,24 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   }
 
   switch (request.method) {
+
+    // method to update the state with user input fields
     case 'storeAddress': 
-    state.hello = 'world',
+    state.amountToStore = request.params.amountToStore,
+    state.addressToStore = request.params.addressToStore,
+    state.dateToStore = request.params.dateToStore
       await wallet.request({
         method: 'snap_manageState', 
         params: ['update', state], 
       }); 
       return true; 
+
+
+    // method to retrieve the data of the state
     case 'retrieveAddresses': 
-      return state.hello; 
+      return state; 
+
+    // method to show the current state of the data
     case 'hello':
       return wallet.request({
         method: 'snap_confirm',
@@ -31,22 +39,41 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
           {
             prompt: `Hello, ${origin}!`,
             description: 'Address book:',
-            textAreaContent: state.hello,
+            textAreaContent: `${state.amountToStore} ${state.addressToStore} ${state.dateToStore} ${state.executeTransaction} `,
           },
         ],
       });
 
-      // getting trasactionDetails
-      case 'getTransactionDetails':
-        return wallet.request({
-          method: 'sanp_manageState',
-          params: [
-            'get',
-          ]
-        })
+
+    // default method
     default:
       throw new Error('Method not found.');
   }
 };
 
 
+// cronJob cofigured 
+module.exports.onCronjob = async ({ request }) => {
+  switch (request.method) {
+    case 'checkTransaction':
+      let state = await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      });
+
+      if(state.dateToStore != ''){
+        let dateToVerify = true;
+
+        if(dateToVerify){
+          state.executeTransaction = 'true';
+          await wallet.request({
+            method: 'snap_manageState',
+            params: ['update', state],
+          });
+        }
+      }
+      
+    default:
+      throw new Error('Method not found.');
+  }
+};
