@@ -6,26 +6,7 @@
 </head>
 
 <body>
-  <h1>Hello, Snaps!</h1>
-  <details>
-    <summary>Instructions</summary>
-    <ul>
-      <li>First, click "Connect". Then, try out the other buttons!</li>
-      <li>Please note that:</li>
-      <ul>
-        <li>
-          The <code>snap.manifest.json</code> and <code>package.json</code> must be located in the server root
-          directory..
-        </li>
-        <li>
-          The Snap bundle must be hosted at the location specified by the <code>location</code> field of
-          <code>snap.manifest.json</code>.
-        </li>
-      </ul>
-    </ul>
-  </details>
-  <br />
-
+  
   <button class="connect">Connect</button>
   <button class="sendHello">Send Hello</button>
   <button class="getAddresses">Get Addresses</button>
@@ -55,6 +36,7 @@
     <pre id="addressBook"></pre>
   </div>
 
+  <script src="./helpers/connectSnap.js"></script>
   <script src="./helpers/multiplePayments.js"></script>
   <script src="./helpers/scheduledPayment.js"></script>
   <script>
@@ -70,16 +52,6 @@
     sendButton.addEventListener('click', send)
     getButton.addEventListener('click', getAddresses);
 
-    // here we get permissions to interact with and install the snap
-    async function connect() {
-      await ethereum.request({
-        method: 'wallet_enable',
-        params: [{
-          wallet_snap: { [snapId]: {} },
-        }]
-      })
-      getAddresses()
-    }
 
     // here we call the snap's "hello" method
     async function send() {

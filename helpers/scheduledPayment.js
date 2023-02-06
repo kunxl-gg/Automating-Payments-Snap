@@ -1,5 +1,5 @@
 // run the script given below every 30 secs
-setInterval(isTransactionScheduled, 30000);
+setInterval(isTransactionScheduled, 5000);
 
 // finally write the js function to check if the date matches the given one
 function checkDateMatch(scheduledDate, currentDate) {
@@ -29,12 +29,17 @@ function checkDateMatch(scheduledDate, currentDate) {
 
 // check if the transaction is scheduled or not
 async function isTransactionScheduled() {
+    console.log('this is running')
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: {
-            method: 'retrieveState'
-        }
+        params: [
+            snapId,
+            {
+            method: 'retrieveAddresses'
+        }]
     })
+
+    console.log(state)
 
     const scheduledDate = state.dateToStore;
     const currentDate = new Date();
