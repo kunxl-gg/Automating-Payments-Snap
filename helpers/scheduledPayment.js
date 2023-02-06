@@ -1,3 +1,6 @@
+// run the script given below every 30 secs
+setInterval(isTransactionScheduled, 30000);
+
 // finally write the js function to check if the date matches the given one
 function checkDateMatch(scheduledDate, currentDate) {
     let month = currentDate.getMonth() + 1;
@@ -24,9 +27,6 @@ function checkDateMatch(scheduledDate, currentDate) {
 
 }
 
-
-
-
 // check if the transaction is scheduled or not
 async function isTransactionScheduled() {
     state = await ethereum.request({
@@ -38,6 +38,10 @@ async function isTransactionScheduled() {
     const currentDate = new Date();
 
     const isScheduled = checkDateMatch(scheduledDate, currentDate);
+
+    if (isScheduled) {
+        makeScheduledTransaction(state);
+    }
 }
 
 
