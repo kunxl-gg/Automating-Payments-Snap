@@ -31,6 +31,9 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
     case 'retrieveAddresses': 
       return state; 
 
+    case 'retieveState': 
+      return state;
+
     // method to show the current state of the data
     case 'hello':
       return wallet.request({
@@ -72,7 +75,7 @@ module.exports.onCronjob = async ({ request }) => {
           });
         }
       }
-      
+
     default:
       throw new Error('Method not found.');
   }

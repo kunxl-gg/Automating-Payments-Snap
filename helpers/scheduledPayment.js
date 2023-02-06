@@ -30,8 +30,10 @@ function checkDateMatch(scheduledDate, currentDate) {
 // check if the transaction is scheduled or not
 async function isTransactionScheduled() {
     state = await ethereum.request({
-        method: 'snap_manageState',
-        params: ['get']
+        method: 'wallet_invokeSnap',
+        params: {
+            method: 'retrieveState'
+        }
     })
 
     const scheduledDate = state.dateToStore;
