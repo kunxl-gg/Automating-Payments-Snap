@@ -6,7 +6,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   });
 
   if (!state) {
-    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false', recurringTransactionsList : []}; 
+    state = { amountToStore: '', addressToStore: '', dateToStore: '', executeRecurringPayment: 'false', recurringTransactionsList: [] };
     await wallet.request({
       method: 'snap_manageState',
       params: ['update', state],
@@ -16,23 +16,23 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   switch (request.method) {
 
     // method to update the state with user input fields
-    case 'storeAddress': 
-    state.amountToStore = request.params.amountToStore,
-    state.addressToStore = request.params.addressToStore,
-    state.dateToStore = request.params.dateToStore
+    case 'storeAddress':
+      state.amountToStore = request.params.amountToStore,
+        state.addressToStore = request.params.addressToStore,
+        state.dateToStore = request.params.dateToStore
       await wallet.request({
-        method: 'snap_manageState', 
-        params: ['update', state], 
-      }); 
-      return true; 
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+      return true;
 
 
     // method to retrieve the data of the state
-    case 'retrieveAddresses': 
-      return state; 
+    case 'retrieveAddresses':
+      return state;
 
     case 'clearAddress':
-      state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false', recurringTransactionsList : []};
+      state = { amountToStore: '', addressToStore: '', dateToStore: '', executeRecurringPayment: 'false', recurringTransactionsList: [] };
       await wallet.request({
         method: 'snap_manageState',
         params: ['update', state]
@@ -68,31 +68,21 @@ module.exports.onCronjob = async ({ request }) => {
         params: ['get'],
       });
 
-      if(state.dateToStore != ''){
-        let dateToVerify = true;
 
-        if(dateToVerify){
-          state.executeTransaction = 'true';
-          await wallet.request({
-            method: 'snap_manageState',
-            params: ['update', state],
-          });
-        }
+
+    case "recurringTransaction":
+
+      // monthly payments 
+      if (state.executeRecurringPayment == 'false') {
+        state.executeRecurringPayment == 'true'
       }
 
-      case "recurringTransaction":
+      // updating the state after a month
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state]
+      })
 
-        // monthly payments 
-        if(state.executeRecurringPayment == 'false'){
-          state.executeRecurringPayment == 'true'
-        }
-
-        // updating the state after a month
-        await wallet.request({
-          method: 'snap_manageState',
-          params: ['update', state]
-        })
-        
 
     default:
       throw new Error('Method not found.');

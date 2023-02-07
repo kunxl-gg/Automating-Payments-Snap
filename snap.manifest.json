@@ -1,6 +1,6 @@
 {
   "version": "0.7.1",
-  "proposedName": "Address Book Snap",
+  "proposedName": "Scheduled And Recurring Payments Snap",
   "description": "An example snap for storing address book entries.",
   "repository": {
     "type": "git",
