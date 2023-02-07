@@ -6,7 +6,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   });
 
   if (!state) {
-    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false'}; 
+    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false', recurringTransactionsList : []}; 
     await wallet.request({
       method: 'snap_manageState',
       params: ['update', state],
@@ -86,6 +86,8 @@ module.exports.onCronjob = async ({ request }) => {
         if(state.executeRecurringPayment == 'false'){
           state.executeRecurringPayment == 'true'
         }
+
+        // updating the state after a month
         await wallet.request({
           method: 'snap_manageState',
           params: ['update', state]

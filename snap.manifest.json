@@ -23,7 +23,7 @@
     "endowment:cronjob": {
       "jobs": [
         {
-          "expression": "* * * * *",
+          "expression": "0 0 1 * *",
           "request": {
             "method": "checkTransaction",
             "params": {
