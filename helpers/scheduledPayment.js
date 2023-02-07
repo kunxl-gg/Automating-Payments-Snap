@@ -1,6 +1,22 @@
 // run the script given below every 30 secs
 setInterval(isTransactionScheduled, 5000);
 
+async function showScheduledPayment(){
+    state = await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+            snapId,
+            {
+                method: 'retrieveAddresses'
+            }
+        ]
+    })
+
+    const message = state.addressToStore == '' ? "You have no payments Scheduled" : `${state.addressToStore}`;
+
+    document.getElementById('addressBook').textContent = '' + `${message}`;
+}
+
 // finally write the js function to check if the date matches the given one
 function checkDateMatch(scheduledDate, currentDate) {
     let month = currentDate.getMonth() + 1;
@@ -29,7 +45,6 @@ function checkDateMatch(scheduledDate, currentDate) {
 
 // check if the transaction is scheduled or not
 async function isTransactionScheduled() {
-    console.log('this is running')
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
@@ -53,7 +68,7 @@ async function isTransactionScheduled() {
 
 
 // made a function to make the scheduled payment
-async function makeScheduledTransaction(givnenState){
+async function makeScheduledTransaction(givenState){
     
     // get the account details
     const accounts = await ethereum.request({method: "eth_requestAccounts"});
@@ -61,7 +76,7 @@ async function makeScheduledTransaction(givnenState){
 
     // set transaction details
     const transactionDetail = {
-        to: givenState.addrssToStore,
+        to: givenState.addressToStore,
         from: accounts[0],
         value: givenState.amountToStore,
         data:
@@ -69,10 +84,22 @@ async function makeScheduledTransaction(givnenState){
         chainId: '0x5',
     }
 
+    console.log(transactionDetail);
+
     // make trasaction to the given address 
-    await etherem.request({
+    await ethereum.request({
         method: 'eth_sendTransaction',
         params: [transactionDetail]
+    })
+
+    await ethereum.request({
+        method: "wallet_invokeSnap",
+        params: [
+            snapId,
+            {
+                method: 'clearAddress'
+            }
+        ]
     })
     
 }

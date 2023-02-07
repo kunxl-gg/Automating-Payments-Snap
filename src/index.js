@@ -31,8 +31,12 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
     case 'retrieveAddresses': 
       return state; 
 
-    case 'retieveState': 
-      return state;
+    case 'clearAddress':
+      state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false'};
+      return wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state]
+      });
 
     // method to show the current state of the data
     case 'hello':
