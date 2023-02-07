@@ -6,7 +6,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   });
 
   if (!state) {
-    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false'}; 
+    state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false'}; 
     await wallet.request({
       method: 'snap_manageState',
       params: ['update', state],
@@ -79,6 +79,18 @@ module.exports.onCronjob = async ({ request }) => {
           });
         }
       }
+
+      case "recurringTransaction":
+
+        // monthly payments 
+        if(state.executeRecurringPayment == 'false'){
+          state.executeRecurringPayment == 'true'
+        }
+        await wallet.request({
+          method: 'snap_manageState',
+          params: ['update', state]
+        })
+        
 
     default:
       throw new Error('Method not found.');

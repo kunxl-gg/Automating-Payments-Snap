@@ -25,10 +25,16 @@
         {
           "expression": "* * * * *",
           "request": {
-            "method": "hello",
+            "method": "checkTransaction",
             "params": {
               "param1": "bar"
             }
+          }
+        },
+        {
+          "expression":"* * * * *",
+          "request" : {
+            "method" : ""
           }
         }
       ]
