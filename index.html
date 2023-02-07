@@ -9,9 +9,9 @@
   
   <button class="connect">Connect</button>
   <button class="sendHello">Send Hello</button>
-  <button class="getAddresses">Get Addresses</button>
 
   <button onclick="showScheduledPayment()">Show Scheduled Payment</button>
+  <button onclick="clearAddresses()">clear</button>
 
   <form id="storeAddress">
     <fieldset>
@@ -55,78 +55,15 @@
   <script src="./helpers/multiplePayments.js"></script>
   <script src="./helpers/scheduledPayment.js"></script>
   <script src="./helpers/fetchData.js"></script>
+  <script src="./helpers/sendHello.js"></script>
   <script>
-
 
     const snapId = `local:${window.location.href}`;
 
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.sendHello')
-    const getButton = document.querySelector('button.getAddresses');
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
-    getButton.addEventListener('click', getAddresses);
-
-
-    // here we call the snap's "hello" method
-    async function send() {
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'hello'
-          }]
-        })
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
-    }
-
-    async function getAddresses() {
-      let response = [];
-      try {
-        response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'retrieveAddresses'
-          }]
-        })
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
-      document.getElementById('addressBook').textContent = '' + response.map(function (item) {
-        return `${item.name}: ${item.address}`;
-      }).join("\n");
-    }
-
-    const storeAddressForm = document.getElementById('storeAddress')
-    storeAddressForm.addEventListener('submit', storeAddress)
-
-    async function storeAddress(e) {
-      e.preventDefault() // to prevent default form behavior 
-
-      const name = document.getElementById('nameToStore').value
-      const address = document.getElementById('addressToStore').value
-
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'storeAddress',
-            params: {
-              nameToStore: name,
-              addressToStore: address
-            }
-          }]
-        })
-        getAddresses()
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
-    }
-
+    
   </script>

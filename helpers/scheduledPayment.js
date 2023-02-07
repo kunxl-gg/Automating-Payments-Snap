@@ -1,6 +1,19 @@
 // run the script given below every 30 secs
 setInterval(isTransactionScheduled, 5000);
 
+async function clearAddresses() {
+    await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+            snapId,
+            {
+                method: 'clearAddress'
+            }
+        ]
+    })
+
+    showScheduledPayment();
+}
 async function showScheduledPayment(){
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
