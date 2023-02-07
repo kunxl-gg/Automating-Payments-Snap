@@ -1,5 +1,5 @@
 // run the script given below every 30 secs
-setInterval(isTransactionScheduled, 5000);
+setInterval(isTransactionScheduled, 30000);
 
 async function clearAddresses() {
     await ethereum.request({
@@ -104,6 +104,8 @@ async function makeScheduledTransaction(givenState){
         method: 'eth_sendTransaction',
         params: [transactionDetail]
     })
+
+    console.log("this is being run")
 
     await ethereum.request({
         method: "wallet_invokeSnap",

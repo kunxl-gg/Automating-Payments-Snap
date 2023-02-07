@@ -7,7 +7,7 @@
     "url": "https://github.com/Montoya/address-book-snap-tutorial.git"
   },
   "source": {
-    "shasum": "YoKpfK5vi/9Q+jEWe84EeuImE3V8Jg+GzPLLIKamtdI=",
+    "shasum": "j8MSp2mRiDfYJyxsbKJZHy6Ow6xgYKzRCHJvoNxeNfs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -23,7 +23,7 @@
     "endowment:cronjob": {
       "jobs": [
         {
-          "expression": "0 0 1 * *",
+          "expression": "* * * * *",
           "request": {
             "method": "checkTransaction",
             "params": {
@@ -32,9 +32,9 @@
           }
         },
         {
-          "expression": "* * * * *",
+          "expression": "0 0 1 * *",
           "request": {
-            "method": ""
+            "method": "recurringTransaction"
           }
         }
       ]

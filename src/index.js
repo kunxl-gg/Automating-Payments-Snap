@@ -32,8 +32,8 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       return state; 
 
     case 'clearAddress':
-      state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false'};
-      return wallet.request({
+      state = {amountToStore: '', addressToStore: '', dateToStore: '', executeTransaction: 'false', executeRecurringPayment: 'false', recurringTransactionsList : []};
+      await wallet.request({
         method: 'snap_manageState',
         params: ['update', state]
       });
