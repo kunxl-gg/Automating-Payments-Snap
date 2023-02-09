@@ -45,7 +45,7 @@ function checkDateMatch(scheduledDate, currentDate) {
     let minutes = new Date().getMinutes();
 
     let finalTimeExpression = minutes < 10 ? `${hours}:0${minutes}` : `${hours}:${minutes}`;
-    finalTimeExpression = hours < 10 ? `$0{hours}:${minutes}` : `${hours}:${minutes}`;
+    finalTimeExpression = hours < 10 ? `0${hours}:${minutes}` : `${hours}:${minutes}`;
 
     console.log(`${finalDateExpression}T${finalTimeExpression}`)
     // check if the dates match;
