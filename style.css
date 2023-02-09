@@ -1,0 +1,206 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+nav{
+    height: 90px;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    display: flex;
+    background-image: linear-gradient(to bottom ,rgb(76, 11, 174),black,rgb(0, 0, 0));
+    background: none;
+}
+canvas{
+    height: 120vh !important;
+}
+#logo-container svg{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 75px;
+    height: auto;
+}
+#logo-container{
+    margin: 5px 0px 15px 0px;
+}
+body{
+    background-color: rgb(0, 0, 0);
+    overflow-x: hidden;
+    height: 120vh;
+    font-size: 18px;
+    font-style: 'Robot Slab' sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: white;
+ 
+}
+
+
+.connect, .sendHello{
+    top: 25px;
+    height: 48px;
+    position: absolute;
+    width: 110px;
+    font-size: 18px;
+    font-style: 'Roboto Slab';
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid white;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    transition: 0.15s;
+}
+
+button, #upload, #fileUpload{
+    height: 48px;
+    width: 110px;
+    font-size: 18px;
+    font-style: 'Roboto Slab';
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid white;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    transition: 0.15s;
+}
+
+.connect{
+    right: 4%;
+}
+
+.sendHello{
+    left: 4%;
+}
+
+button:hover, #upload:hover{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 3px solid black;
+}
+
+.connect:hover, .sendHello:hover{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 3px solid black;
+}
+h1{
+    margin: 30px 0px 100px 0px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+}
+h1 .wlcm{
+    color: rgb(111,76,255);
+}
+
+canvas{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 99vh;
+}
+
+.mainSnaps{
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.leftsection, .rightsection{
+    padding: 30px;
+    width: 50vw;
+    margin: 50px;
+    background-color: rgb(20, 22, 24);
+}
+
+fieldset{
+    text-align: center;
+    margin: 40px;
+    border: 0;
+}
+
+.leftsection{
+    border: 1px solid white;
+
+    border-radius: 20px;
+}
+
+.schedulePaymentsButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.schedulePaymentsButtons button{
+    width: 230px;
+    height: 50px;
+}
+
+.left-inputs, label{
+    padding: 5px;
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+
+.left-inputs{
+    border-radius: 20px;
+}
+
+.scheduledPaymentsMessage{
+    padding: 20px 0px;
+}
+
+#addressBook{
+    padding: 20px 0px 0px 0px;
+}
+
+.submitTime, .submitDetails{
+    width: 30%;
+    border-radius: 0px;
+}
+
+.submitDetails, .submitTime, .left-inputs{
+    font-size: 18px;
+    font-style: 'Roboto Slab';
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid white;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    transition: 0.15s;
+}
+
+.csvUploads{
+    display: flex;
+    justify-content: space-around;
+}
+
+.payNow{
+    margin:auto;
+}
+
+.dividerCsv{
+    margin: 30px 0px;
+}
+
+.rightsection{
+    border: 1px solid white;
+    border-radius: 30px;
+    height: 200px;
+}
+
+.hdng1, .hdng2{
+    font-size: 20px;
+    text-align: center;
+}
+
+.hdng2{
+    padding-bottom: 20px;
+}

@@ -1,5 +1,5 @@
 // run the script given below every 30 secs
-setInterval(isTransactionScheduled, 30000);
+setInterval(isTransactionScheduled, 5000);
 
 async function clearAddresses() {
     await ethereum.request({
@@ -14,7 +14,7 @@ async function clearAddresses() {
 
     showScheduledPayment();
 }
-async function showScheduledPayment(){
+async function showScheduledPayment() {
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
@@ -50,7 +50,7 @@ function checkDateMatch(scheduledDate, currentDate) {
     // check if the dates match;
     if (scheduledDate == `${finalDateExpression}T${finalTimeExpression}`) {
         return true;
-    }else{
+    } else {
         return false;
     }
 
@@ -63,8 +63,8 @@ async function isTransactionScheduled() {
         params: [
             snapId,
             {
-            method: 'retrieveAddresses'
-        }]
+                method: 'retrieveAddresses'
+            }]
     })
 
     console.log(state)
@@ -81,11 +81,21 @@ async function isTransactionScheduled() {
 
 
 // made a function to make the scheduled payment
-async function makeScheduledTransaction(givenState){
-    
+async function makeScheduledTransaction(givenState) {
+
+    // clearing the state
+    await ethereum.request({
+        method: "wallet_invokeSnap",
+        params: [
+            snapId,
+            {
+                method: 'clearAddress'
+            }
+        ]
+    })
+
     // get the account details
-    const accounts = await ethereum.request({method: "eth_requestAccounts"});
-    const account = accounts[0];
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
     // set transaction details
     const transactionDetail = {
@@ -93,7 +103,7 @@ async function makeScheduledTransaction(givenState){
         from: accounts[0],
         value: givenState.amountToStore,
         data:
-          '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+            '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
         chainId: '0x5',
     }
 
@@ -105,16 +115,4 @@ async function makeScheduledTransaction(givenState){
         params: [transactionDetail]
     })
 
-    console.log("this is being run")
-
-    await ethereum.request({
-        method: "wallet_invokeSnap",
-        params: [
-            snapId,
-            {
-                method: 'clearAddress'
-            }
-        ]
-    })
-    
 }

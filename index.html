@@ -3,44 +3,87 @@
 </head>
 <title>Hello, Snaps!</title>
 <link rel="icon" type="image/svg" href="./images/icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Crete+Round&family=DM+Serif+Display&family=Noto+Serif&family=Oswald:wght@300&family=Roboto+Slab&family=Sofia&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-  
-  <button class="connect">Connect</button>
-  <button class="sendHello">Send Hello</button>
+<body class="bdy">
 
-  <button onclick="showScheduledPayment()">Show Scheduled Payment</button>
-  <button onclick="clearAddresses()">clear</button>
+  <!-- <canvas id="Matrix">
+  </canvas> -->
 
-  <form id="storeAddress">
-    <fieldset>
-      <legend>Save an address to your address book</legend>
-      <label for="amountToStore">Amount</label>
-      <input type="text" id="amountToStore" name="amountToStore"><br>
-      <label for="addressToStore">Address</label>
-      <input type="text" id="addressToStore" name="addressToStore"><br>
-      <label for="dateToStore">Date</label>
-      <input type="datetime-local" id="dateToStore" name="dateToStore"><br>
-      <input type="submit" id="storeAddress" value="Save">
-    </fieldset>
-  </form>
+  <nav>
+    <center>
+      <div id="logo-container"></div>
+    </center>
+    <button class="connect">Connect</button>
+    <button class="sendHello">Send Hello</button>
+  </nav>
+
+  <h1><span class="wlcm">Welcome</span> to Multi Snap!</h1>
 
 
-  <input type="file" id="fileUpload" />
-  <input type="button" id="upload" value="Upload" onclick="Upload()" />
-  <hr />
-  <div id="dvCSV">
-  </div>
-
-  <button onclick="makeJson()">PayNow</button>
 
 
-  <div>
-    <p>My address book</p>
-    <pre id="addressBook"></pre>
-  </div>
+  <section class="mainSnaps">
 
+    <!-- this is the scheduledPayment section -->
+    <div class="leftsection">
+      <div class="hdng1">Our Scheduled Transaction Feature</div>
+      <form id="storeAddress">
+        <fieldset class="schedulePaymentsFields">
+          <label for="amountToStore">Amount</label>
+          <input class="left-inputs" type="text" id="amountToStore" name="amountToStore"><br>
+          <label for="addressToStore">Address</label>
+          <input class="left-inputs" type="text" id="addressToStore" name="addressToStore"><br>
+          <label for="dateToStore">Date</label>
+          <input class="left-inputs submitTime" type="datetime-local" id="dateToStore" name="dateToStore"><br>
+          <input class="left-inputs submitDetails" type="submit" id="storeAddress" value="Save">
+        </fieldset>
+      </form>
+
+      <div class="schedulePaymentsButtons">
+        <button onclick="showScheduledPayment()">Show Scheduled Payment</button>
+        <button onclick="clearAddresses()">clear</button>
+      </div>
+
+
+
+      <div class="scheduledPaymentsMessage">
+        <p>My address book</p>
+        <pre id="addressBook"></pre>
+      </div>
+    </div>
+
+    <!-- this is the csv payment section -->
+    <div class="rightsection">
+      <div class="hdng2">Our CSV Uploading Feature for Payment</div>
+      <div class="csvUploads">
+        <input type="file" id="fileUpload" />
+        <input type="button" id="upload" value="Upload" onclick="Upload()" />
+      </div>
+
+      <hr class="dividerCsv"/>
+      <div id="dvCSV">
+      </div>
+
+      <button class="payNow" onclick="makeJson()">PayNow</button>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+  <script src="logic.js"></script>
   <script src="./helpers/connectSnap.js"></script>
   <script src="./helpers/multiplePayments.js"></script>
   <script src="./helpers/scheduledPayment.js"></script>
@@ -55,5 +98,5 @@
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
-    
+
   </script>
