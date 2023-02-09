@@ -46,7 +46,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
           {
             prompt: `Hello, ${origin}!`,
             description: 'Address book:',
-            textAreaContent: `${state.amountToStore} ${state.addressToStore} ${state.dateToStore} ${state.executeTransaction} `,
+            textAreaContent: `${state.amountToStore} ${state.addressToStore} ${state.dateToStore} ${state.executeRecurringPayment} `,
           },
         ],
       });
