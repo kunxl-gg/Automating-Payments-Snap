@@ -183,7 +183,7 @@ fieldset{
 }
 .vd{
     display: flex;
-    justify-content: center;
+    justify-content: centerG;
 }
 .payNow{
     margin:auto;
