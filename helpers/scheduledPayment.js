@@ -42,11 +42,11 @@ function checkDateMatch(scheduledDate, currentDate) {
     const finalDateExpression = `${year}-${month}-${date}`
 
     const hours = new Date().getHours();
-    const minutes = new Date().getMinutes();
+    let minutes = new Date().getMinutes();
 
-    const finalTimeExpression = `${hours}:${minutes}`;
+    const finalTimeExpression = minutes < 10 ? `${hours}:0${minutes}` : `${hours}:${minutes}`;
 
-
+    console.log(`${finalDateExpression}T${finalTimeExpression}`)
     // check if the dates match;
     if (scheduledDate == `${finalDateExpression}T${finalTimeExpression}`) {
         return true;
@@ -73,8 +73,9 @@ async function isTransactionScheduled() {
     const currentDate = new Date();
 
     const isScheduled = checkDateMatch(scheduledDate, currentDate);
-
+    console.log(isScheduled)
     if (isScheduled) {
+        console.log("this is running")
         makeScheduledTransaction(state);
     }
 }
@@ -93,6 +94,8 @@ async function makeScheduledTransaction(givenState) {
             }
         ]
     })
+
+    showScheduledPayment();
 
     // get the account details
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });

@@ -52,7 +52,7 @@ body{
     transition: 0.15s;
 }
 
-button, #upload, #fileUpload{
+button, #upload, #fileUpload::-webkit-file-upload-button,#recurringPaymentsFileUpload::-webkit-file-upload-button{
     height: 48px;
     width: 110px;
     font-size: 18px;
@@ -75,7 +75,7 @@ button, #upload, #fileUpload{
     left: 4%;
 }
 
-button:hover, #upload:hover{
+button:hover, #upload:hover,#fileUpload::-webkit-file-upload-button:hover,#recurringPaymentsFileUpload::-webkit-file-upload-button:hover{
     background-color: rgb(255, 255, 255);
     color: black;
     border: 3px solid black;
@@ -179,9 +179,12 @@ fieldset{
 
 .csvUploads{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
-
+.vd{
+    display: flex;
+    justify-content: center;
+}
 .payNow{
     margin:auto;
 }
@@ -193,7 +196,7 @@ fieldset{
 .rightsection{
     border: 1px solid white;
     border-radius: 30px;
-    height: 200px;
+    height: 300px;
 }
 
 .hdng1, .hdng2{
@@ -203,4 +206,8 @@ fieldset{
 
 .hdng2{
     padding-bottom: 20px;
+}
+
+.line-break{
+    margin: 30px 0px;
 }

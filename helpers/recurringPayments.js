@@ -1,50 +1,60 @@
-// setInterval(()=>{}, 86,400,000)
+const isMonthlyPaymentScheduled = async ()=>{
+    const state = await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+            snapId,
+            {
+                method: 'retrieveAddresses'
+            }
+        ]
+    })
+
+    if(state.executeRecurringPayment == 'true'){
+        makeMultiplePayments(state.recurringTransactionsList)
+    };
+}
 
 
-// async function checkMonthEnd(){
-//     const state = await ethereum.request({
-//         method: 'wallet_invokeSnap',
-//         prams: [
-//             snapId,
-//             {
-//                 method: 'retrieveAdress'
-//             }
-//         ]
-//     })
+const makeMultiplePayments = async (transactionDetails) =>{
+    console.log("this function ran once")
 
-//     if(state.executeRecurringTransaction == 'true'){
-//         makeInstallment(state);
-//     }
-// }
+    // resetting the monthly countDown
+    await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+            snapId,
+            {
+                method: 'resetMonthlyCountDown',
+            }
+        ]
+    })
 
-// async function makeInstallment(givenState){
+    if(transactionDetails.length == 0){
+        return;
+    }
 
-//     // making a list of transaction details 
-//     const finalTransactionDetailList = [];
 
-//     const accounts = await ethereum.request({
-//         method: 'eth_requestAccounts'
-//     })
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
-//     const account = accounts[0];
+    for(let index = 0; index < transactionDetails.length; index ++){
+        const transactionDetail = {
+            to: transactionDetails[index].Receiver,
+            from: accounts[0],
+            value: transactionDetails[index].Value,
+            data:
+                '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+            chainId: '0x5',
+        }
 
-//     givenState.recurringTransactionsList.map( data => {
-//         const detail = {
-//             to: data.Receiver, // Required except during contract publications.
-//             from: account, // must match user's active address.
-//             value: data.Value,// Only required to send ether to the recipient from the initiating external account.
-//             data:
-//                 '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
-//             chainId: '0x5', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-//         };
+        await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transactionDetail]
+        })
 
-//         finalTransactionDetailList.push(detail);
-//     })
+    }
+}
 
-//     for(let index = 0; index < finalTransactionDetailList.length; index++){
-//         await ethereum.request({
-//             method: 'eth_sendTransaction',
-//             params: [finalTransactionDetailList[index]]
-//         })
-//     }
-// }
+
+
+setInterval(isMonthlyPaymentScheduled, 5000);
+

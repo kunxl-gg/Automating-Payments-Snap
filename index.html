@@ -13,8 +13,8 @@
 
 <body class="bdy">
 
-  <!-- <canvas id="Matrix">
-  </canvas> -->
+  <canvas id="Matrix">
+  </canvas>
 
   <nav>
     <center>
@@ -30,8 +30,26 @@
 
 
   <section class="mainSnaps">
-
     <!-- this is the scheduledPayment section -->
+    <div class="rightsection">
+      <div class="hdng2">Our CSV Uploading Feature for Payment</div>
+      <div class="csvUploads">
+        <input type="file" id="fileUpload" />
+        <input type="button" id="upload" value="Upload" onclick="Upload()" />
+      </div>
+
+      <hr class="dividerCsv"/>
+      <div id="dvCSV">
+      </div>
+      <div class="vd">
+      <button class="payNow" onclick="makeJson()">PayNow</button>
+      </div>
+      <hr class="line-break" />
+      <div class="vd">
+      <input type="file" id="recurringPaymentsFileUpload">
+      </div>
+
+    </div>
     <div class="leftsection">
       <div class="hdng1">Our Scheduled Transaction Feature</div>
       <form id="storeAddress">
@@ -60,19 +78,6 @@
     </div>
 
     <!-- this is the csv payment section -->
-    <div class="rightsection">
-      <div class="hdng2">Our CSV Uploading Feature for Payment</div>
-      <div class="csvUploads">
-        <input type="file" id="fileUpload" />
-        <input type="button" id="upload" value="Upload" onclick="Upload()" />
-      </div>
-
-      <hr class="dividerCsv"/>
-      <div id="dvCSV">
-      </div>
-
-      <button class="payNow" onclick="makeJson()">PayNow</button>
-    </div>
   </section>
 
 
@@ -84,6 +89,8 @@
 
 
   <script src="logic.js"></script>
+  <script src="./helpers/recurringPayments.js"></script>
+  <script src="./helpers/updateDataForRecurringPayments.js"></script>
   <script src="./helpers/connectSnap.js"></script>
   <script src="./helpers/multiplePayments.js"></script>
   <script src="./helpers/scheduledPayment.js"></script>
