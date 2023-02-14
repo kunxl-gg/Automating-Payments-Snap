@@ -1,4 +1,4 @@
-# Inter-IIT-Snap
+# Automating Payments Snap
 
 This is a snap with multiple features. In this snap we have multiple componenets: 
 * Making a Scheduled Payment at a particular data and time
