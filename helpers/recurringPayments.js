@@ -1,12 +1,12 @@
 const isMonthlyPaymentScheduled = async ()=>{
     const state = await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'retrieveAddresses'
             }
-        ]
+        }
     })
 
     if(state.executeRecurringPayment == 'true'){
@@ -21,12 +21,12 @@ const makeMultiplePayments = async (transactionDetails) =>{
     // resetting the monthly countDown
     await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request: {
                 method: 'resetMonthlyCountDown',
             }
-        ]
+        }
     })
 
     if(transactionDetails.length == 0){

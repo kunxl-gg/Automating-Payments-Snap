@@ -92,7 +92,7 @@ Finally, add a case to `src/index.js` to handle receiving this request:
 module.exports.onRpcRequest = async ({ origin, request }) => {
   switch (request.method) {
     case 'storeAddress': 
-      return wallet.request({
+      return snap.request({
         method: 'snap_confirm', 
         params: [
           {
@@ -133,7 +133,7 @@ First, initialize the Snap's state with an empty address book. Add the following
 ```Javascript
 module.exports.onRpcRequest = async ({ origin, request }) => {
 
-  let state = await wallet.request({
+  let state = await snap.request({
     method: 'snap_manageState',
     params: ['get'],
   });
@@ -141,7 +141,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   if (!state) {
     state = {book:[]}; 
     // initialize state if empty and set default data
-    await wallet.request({
+    await snap.request({
       method: 'snap_manageState',
       params: ['update', state],
     });
@@ -150,7 +150,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   switch (request.method) {
 ```
 
-This code retrieves the current data stored in the Snap's state, and if that data is not set, initalizes it with an object containing an empty array for the address book: `{book:[]}`. Note that `await` is used because these `wallet.request` calls are normally asynchronous but they need to be executed synchronously here. 
+This code retrieves the current data stored in the Snap's state, and if that data is not set, initalizes it with an object containing an empty array for the address book: `{book:[]}`. Note that `await` is used because these `snap.request` calls are normally asynchronous but they need to be executed synchronously here. 
 
 Next, add some code to store the name and address from the form before displaying the confirmation window: 
 
@@ -161,11 +161,11 @@ switch (request.method) {
       name:requestObject.nameToStore,
       address:requestObject.addressToStore
     });
-    await wallet.request({
+    await snap.request({
       method: 'snap_manageState', 
       params: ['update', state], 
     }); 
-    return wallet.request({
+    return snap.request({
       method: 'snap_confirm', 
 ```
 
@@ -174,7 +174,7 @@ This code adds the new name and address to the end of the address book, and then
 Finally, display the result of this request in the confirmation window: 
 
 ```Javascript
-  return wallet.request({
+  return snap.request({
     method: 'snap_confirm', 
     params: [
       {
@@ -210,7 +210,7 @@ case 'hello':
   let address_book = state.book.map(function(item){
       return `${item.name}: ${item.address}`; 
     }).join("\n"); 
-  return wallet.request({
+  return snap.request({
     method: 'snap_confirm',
     params: [
       {
@@ -230,7 +230,7 @@ This code does a quick string conversion of the address book object (`map` each 
 Note that you did not need to add addresses to the address book again before showing the addresses that are stored. The addresses you added earlier were persisted even after updating the Snap! The data was fetched with this code which you added earlier in this tutorial: 
 
 ```Javascript
-let state = await wallet.request({
+let state = await snap.request({
   method: 'snap_manageState',
   params: ['get'],
 });
@@ -362,7 +362,7 @@ switch (request.method) {
       name:request.nameToStore,
       address:request.addressToStore
     });
-    await wallet.request({
+    await snap.request({
       method: 'snap_manageState', 
       params: ['update', state], 
     }); 

@@ -27,14 +27,14 @@ input.addEventListener("change", () => {
 const updateRecurringPaymentList = async (json) => {
     return await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'updateRecurringPaymentList',
                 params: {
                     recurringPaymentList: json
                 }
             }
-        ]
+        }
     })
 }

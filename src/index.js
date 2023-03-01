@@ -1,15 +1,16 @@
+import { panel, heading, text } from '@metamask/snaps-ui';
 module.exports.onRpcRequest = async ({ origin, request }) => {
 
-  let state = await wallet.request({
+  let state = await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: { operation: 'get' },
   });
 
   if (!state) {
     state = { amountToStore: '', addressToStore: '', dateToStore: '', executeRecurringPayment: 'false', recurringTransactionsList: [] };
-    await wallet.request({
+    await snap.request({
       method: 'snap_manageState',
-      params: ['update', state],
+      params: { operation: 'update', newState: state },
     });
   }
 
@@ -20,9 +21,9 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       state.amountToStore = request.params.amountToStore,
         state.addressToStore = request.params.addressToStore,
         state.dateToStore = request.params.dateToStore
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: { operation: 'update', newState: state },
       });
       return true;
 
@@ -33,29 +34,29 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
 
     case 'clearAddress':
       state = { amountToStore: '', addressToStore: '', dateToStore: '', executeRecurringPayment: 'false', recurringTransactionsList: [] };
-      return await wallet.request({
+      return await snap.request({
         method: 'snap_manageState',
-        params: ['update', state]
+        params: { operation: 'update', newState: state },
       });
 
 
     case 'updateRecurringPaymentList':
       state.recurringTransactionsList = request.params.recurringPaymentList
-      return wallet.request({
+      return snap.request({
         method: 'snap_manageState',
-        params: ['update', state]
+        params: { operation: 'update', newState: state },
       })
 
-    case 'resetMonthlyCountDown': 
+    case 'resetMonthlyCountDown':
       state.executeRecurringPayment = 'false'
       state.recurringTransactionsList = []
-      return wallet.request({
+      return snap.request({
         method: 'snap_manageState',
-        params: ['update', state]
+        params: { operation: 'update', newState: state },
       })
     // method to show the current state of the data
     // case 'hello':
-    //   return wallet.request({
+    //   return snap.request({
     //     method: 'snap_confirm',
     //     params: [
     //       {
@@ -78,17 +79,17 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
 module.exports.onCronjob = async ({ request }) => {
   switch (request.method) {
     case 'checkTransaction':
-      let state = await wallet.request({
+      let state = await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: { operation: 'get' },
       });
 
 
 
     case "recurringTransaction":
-      let givenstate = await wallet.request({
+      let givenstate = await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: { operation: 'get' },
       });
 
       // monthly payments 
@@ -97,9 +98,9 @@ module.exports.onCronjob = async ({ request }) => {
       }
 
       // updating the state after a month
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', givenstate]
+        params: { operation: 'update', newState: givenstate },
       })
 
 
@@ -113,7 +114,7 @@ module.exports.onTransaction = async ({
   transaction,
   chainId,
 }) => {
-  
+
   const toAddress = transaction.to; //Recipient's address
   const fromAddress = transaction.from; //Sender's address
 
@@ -136,11 +137,11 @@ module.exports.onTransaction = async ({
     })
     .catch((err) => console.error(err));
 
-  
+
 
   const RecipientResults = apiResponseOfRecipient.result; //Storing result of Recipient's data fetched from api
   const UserResults = apiResponseOfUser.result; //Storing result of Sender's data fetched from api
-   
+
   //Converting timestamp into month and storing transaction done by recipient's per month
   const monthlyData = {};
 
@@ -196,20 +197,20 @@ module.exports.onTransaction = async ({
   console.table(amountsUser);
 
 
-//Counting no. of smart contract created and normal transaction
-let blankToCount = 0;
-let nonBlankToCount = 0;
+  //Counting no. of smart contract created and normal transaction
+  let blankToCount = 0;
+  let nonBlankToCount = 0;
 
-RecipientResults.forEach(result => {
-  if (!result.to) {
-    blankToCount++;
-  } else {
-    nonBlankToCount++;
-  }
-});
+  RecipientResults.forEach(result => {
+    if (!result.to) {
+      blankToCount++;
+    } else {
+      nonBlankToCount++;
+    }
+  });
 
-console.log(`Blank To Count: ${blankToCount}`);
-console.log(`Non-Blank To Count: ${nonBlankToCount}`);
+  console.log(`Blank To Count: ${blankToCount}`);
+  console.log(`Non-Blank To Count: ${nonBlankToCount}`);
   //Link for Recipient Past Transaction
   const ReceipientPastTransaction = `https://quickchart.io/chart?c={type:'line',data:{labels:[${months}],datasets:[{label:'Transaction in Ethers',data:[${amounts}],fill:false,borderColor:'green'}]}}`;
 
@@ -220,11 +221,14 @@ console.log(`Non-Blank To Count: ${nonBlankToCount}`);
   const TypeOfTransaction = `https://quickchart.io/chart?c={type:'pie',data:{labels:['Normal Transaction','Smart Contract Creation'],datasets:[{data:[${nonBlankToCount},${blankToCount}]}]}}`;
 
   //Setting up insights
-  const insights = {
-    'Past Transaction of Receipient': ReceipientPastTransaction,
-    'Past Transaction of Sender': UserPastTransaction,
-    'Normal Transaction vs Smart Contract of Recipient': TypeOfTransaction,
-  };
+  const insights = [{ name: 'Past Transaction of Receipient', value: ReceipientPastTransaction }, { name: 'Past Transaction of Sender', value: UserPastTransaction }, { name: 'Normal Transaction vs Smart Contract of Recipient', value: TypeOfTransaction },];
 
-  return { insights };
+
+  return {
+    content: panel([
+      heading('My Transaction Insights'),
+      text('Here are the insights:'),
+      ...insights.map((insight) => text(`${insight.name}: ${insight.value}`)),
+    ])
+  };
 };

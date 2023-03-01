@@ -4,12 +4,12 @@ setInterval(isTransactionScheduled, 5000);
 async function clearAddresses() {
     await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'clearAddress'
             }
-        ]
+        }
     })
 
     showScheduledPayment();
@@ -17,12 +17,12 @@ async function clearAddresses() {
 async function showScheduledPayment() {
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'retrieveAddresses'
             }
-        ]
+        }
     })
 
     const message = state.addressToStore == '' ? "You have no payments Scheduled" : `${state.addressToStore}`;
@@ -61,11 +61,11 @@ function checkDateMatch(scheduledDate, currentDate) {
 async function isTransactionScheduled() {
     state = await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'retrieveAddresses'
-            }]
+            }}
     })
 
     console.log(state)
@@ -88,12 +88,12 @@ async function makeScheduledTransaction(givenState) {
     // clearing the state
     await ethereum.request({
         method: "wallet_invokeSnap",
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'clearAddress'
             }
-        ]
+        }
     })
 
     showScheduledPayment();

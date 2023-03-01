@@ -10,9 +10,9 @@ async function storeAddress(e) {
 
     await ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
+        params: {
             snapId,
-            {
+            request:{
                 method: 'storeAddress',
                 params: {
                     amountToStore : amount,
@@ -20,7 +20,7 @@ async function storeAddress(e) {
                     dateToStore : date,
                 }
             }
-        ]
+        }
     })
 
     showScheduledPayment()
