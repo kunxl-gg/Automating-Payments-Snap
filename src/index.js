@@ -228,7 +228,7 @@ module.exports.onTransaction = async ({
     content: panel([
       heading('My Transaction Insights'),
       text('Here are the insights:'),
-      ...insights.map((insight) => text(`${insight.name}: ${insight.value}`)),
+      ...insights.map((insight) => text(`**${insight.name}:** ${insight.value}`)),
     ])
   };
 };
