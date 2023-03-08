@@ -1883,11 +1883,11 @@
     through2 "^2.0.3"
 
 "@metamask/post-message-stream@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@metamask/post-message-stream/-/post-message-stream-6.0.0.tgz#e8c26b1ef41452b2f1862004651ae3970b944868"
-  integrity sha512-z0l6UMW3z6W4qIhKSh48/6n2Q9AG1oOh9tus+Ncs9w6dAbkElKke+mXZ7tT6oAyE3T4JZLnDfGKbPWYoq+nrsA==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@metamask/post-message-stream/-/post-message-stream-6.1.0.tgz#d36837ea02777e65c1151a8687d427f84bf7004f"
+  integrity sha512-vf2M1j0nv2Ya+ShHsdowtOWpVWFPSZY2OopAxHQ7LoTAgsigKrqwkM3jpcgHvQIv4OpO+Ad2FrjcvIkGXGv5kw==
   dependencies:
-    "@metamask/utils" "^2.0.0"
+    "@metamask/utils" "^3.0.1"
     readable-stream "2.3.3"
 
 "@metamask/providers@^9.0.0":
@@ -2013,7 +2013,7 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
-"@metamask/utils@^3.4.1":
+"@metamask/utils@^3.0.1", "@metamask/utils@^3.4.1":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@metamask/utils/-/utils-3.6.0.tgz#b218b969a05ca7a8093b5d1670f6625061de707d"
   integrity sha512-9cIRrfkWvHblSiNDVXsjivqa9Ak0RYo/1H6tqTqTbAx+oBK2Sva0lWDHxGchOqA7bySGUJKAWSNJvH6gdHZ0gQ==
